@@ -1,6 +1,6 @@
 <template>
   <v-toolbar max-height="72px" dark fixed app clipped-right>
-    <v-toolbar-title class="purple--text">GBible</v-toolbar-title>
+    <v-toolbar-title class="'purple--text">GBible</v-toolbar-title>
     <v-spacer />
     <v-btn v-if="!logged_user" flat dark ripple class="ma-0 ml-5" @click="open_login_dialog($event)">Login</v-btn>
     <login-dialog ref="login_dialog" />

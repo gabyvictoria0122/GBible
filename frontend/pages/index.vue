@@ -1,9 +1,9 @@
 <template>
   <div>
-    <windows/>
-  <v-layout justify-center align-center>
-    <BtnInicial/>
-  </v-layout>
+    <windows />
+    <v-layout justify-center align-center>
+      <BtnInicial />
+    </v-layout>
   </div>
 </template>
 

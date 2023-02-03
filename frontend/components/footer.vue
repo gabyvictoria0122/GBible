@@ -3,12 +3,11 @@
     <v-tabs
       dark
       v-model="tab"
+      fixed-tabs
       color="purple darken-1"
-      centered
       icons-and-text
     >
       <v-tabs-slider />
-
       <v-tab
         href="#tab-1"
         :to="{name: 'start'}"
@@ -40,7 +39,7 @@
         <v-icon>mdi-menu</v-icon>
       </v-tab>
     </v-tabs>
-</v-card>
+  </v-card>
 </template>
 
 <script>
