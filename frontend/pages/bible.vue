@@ -1,11 +1,18 @@
 <template>
-  <h1>HEYYYY AQUI É A BIBLIA</h1>
+  <div>
+    <referencias />
+  </div>
 </template>
 
 <script>
+import referencias from '../components/referencias.vue'
 export default {
+  components: {
+    referencias
+  },
   layout: 'complex'
 }
+
 </script>
 
 <style>
