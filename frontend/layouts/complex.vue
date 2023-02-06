@@ -1,11 +1,11 @@
 <template>
   <v-app>
     <toolbar />
-    <v-content>
+    <v-main>
       <v-container fluid>
         <nuxt />
       </v-container>
-    </v-content>
+    </v-main>
     <le-footer />
   </v-app>
 </template>

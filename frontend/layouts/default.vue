@@ -1,11 +1,11 @@
 <template>
   <v-app id="inspire">
     <!-- <toolbar/> -->
-    <v-content>
+    <v-main>
       <v-container fluid>
         <nuxt />
       </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 

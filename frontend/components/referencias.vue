@@ -9,7 +9,6 @@ jsdjsdn
     <v-card>
       <v-tabs
         dark
-        v-model="tab"
         fixed-tabs
         color="purple darken-1"
         text
@@ -39,6 +38,7 @@ jsdjsdn
     <div v-if="livros">
       <!-- pesquisar e chamar livros -->
       <h2>LIVROSSS</h2>
+      {{ list_books[0].name }}
     </div>
     <div v-else-if="capitulos">
       <h2>CAPITULOS</h2>
@@ -53,18 +53,20 @@ import api from '~api'
 
 export default {
   data: () => ({
-    livros: true,
+    livros: false,
     capitulos: false,
     versiculos: false,
-    list_books: []
+    list_books: {}
   }),
   methods: {
     // eslint-disable-next-line require-await
     async books_bible () {
-      debugger
       this.livros = true
+      // eslint-disable-next-line no-debugger
+      debugger
       const data = await api.list_books()
-      this.list_books = data
+      this.list_books = data.livros
+      console.log('vem')
     }
   }
 }
