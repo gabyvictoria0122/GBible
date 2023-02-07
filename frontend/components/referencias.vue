@@ -15,36 +15,55 @@ jsdjsdn
       >
         <v-tabs-slider />
         <v-tab
-          @click="books_bible"
+          href="#tab-5"
+          @click=" livros = true; capitulos = false; versiculos = false"
         >
           LIVROS
         </v-tab>
 
         <v-tab
-          href="#tab-2"
-          :to="{name: 'bible'}"
+          href="#tab-6"
+          @click=" livros = false; capitulos = true; versiculos = false"
         >
           CAPÍTULOS
         </v-tab>
 
         <v-tab
-          href="#tab-3"
-          :to="{name: 'record'}"
+          href="#tab-7"
+          @click=" livros = false; capitulos = false; versiculos = true"
         >
           VERSÍCULOS
         </v-tab>
       </v-tabs>
     </v-card>
-    <div v-if="livros">
+    <div v-if="versiculos">
       <!-- pesquisar e chamar livros -->
-      <h2>LIVROSSS</h2>
-      {{ list_books[0].name }}
+      <h2>VERSICULOS</h2>
     </div>
-    <div v-else-if="capitulos">
+    <div v-if="capitulos">
       <h2>CAPITULOS</h2>
     </div>
-    <div v-else>
-      <h2>VERSICULOS</h2>
+    <div v-if="livros">
+      <v-card
+        class="mx-auto"
+        tile
+      >
+        <v-list rounded>
+          <v-list-item-group
+            v-model="selectedBook"
+            color="primary"
+          >
+            <v-list-item
+              v-for="(item, i) in listar_books"
+              :key="i"
+            >
+              <v-list-item-content>
+                <v-list-item-title v-text="item.name" />
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-card>
     </div>
   </div>
 </template>
@@ -56,18 +75,14 @@ export default {
     livros: false,
     capitulos: false,
     versiculos: false,
-    list_books: {}
+    selectedBook: null,
+    listar_books: []
   }),
-  methods: {
-    // eslint-disable-next-line require-await
-    async books_bible () {
-      this.livros = true
-      // eslint-disable-next-line no-debugger
-      debugger
-      const data = await api.list_books()
-      this.list_books = data.livros
-      console.log('vem')
-    }
+  mounted () {
+    this.livros = true
+    api.list_books().then(result => {
+      this.listar_books = result.livros
+    })
   }
 }
 </script>
