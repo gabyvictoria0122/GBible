@@ -10,12 +10,12 @@ jsdjsdn
       <v-tabs
         dark
         fixed-tabs
+        v-model="selectedTab"
         color="purple darken-1"
         text
       >
-        <v-tabs-slider />
         <v-tab
-          href="#tab-5"
+          href="#livros"
           :active-class="livros"
           @click=" livros = true; capitulos = false; versiculos = false"
         >
@@ -23,7 +23,7 @@ jsdjsdn
         </v-tab>
 
         <v-tab
-          href="#tab-6"
+          href="#capitulos"
           :active-class="capitulos"
           @click=" livros = false; capitulos = true; versiculos = false"
         >
@@ -31,97 +31,101 @@ jsdjsdn
         </v-tab>
 
         <v-tab
-          href="#tab-7"
+          href="#versiculos"
           active-class
           @click=" livros = false; capitulos = false; versiculos = true"
         >
           VERSÍCULOS
         </v-tab>
-      </v-tabs>
-    </v-card>
-
-    <div v-if="livros">
-      <a href="#tab-7">teste</a>
-      <v-responsive
-        max-width="400"
-        class="mx-auto mb-4"
-      >
-        <v-text-field
-          color="purple darken-1"
-          v-model="benched"
-          :items="listar_livros"
-          :loading="isLoading"
-          :search-input.sync="search"
-          chips
-          clearable
-          hide-selected
-          item-text="name"
-          item-value="id"
-          label="Search for a book..."
-          prepend-icon="mdi-magnify"
-          single-line
-        />
-      </v-responsive>
-
-      <v-card
-        class="mx-auto"
-        tile
-      >
-        <v-list rounded>
-          <v-list-item-group
-            v-model="selectedBook"
-            color="primary"
-          >
-            <v-list-item
-              v-for="(item, i) in listar_livros"
-              :key="i"
-              @click=" livros = false; capitulos = true; versiculos = false"
+        <v-tab-item id="livros" key="livros">
+          <div>
+            <v-responsive
+              max-width="400"
+              class="mx-auto mb-4"
             >
-              <v-list-item-content>
-                <v-list-item-title v-text="item.name" />
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
-      </v-card>
-    </div>
-    <div class="py-10 px-6" v-if="capitulos">
-      <v-row justify="space-around">
-        <v-btn
-          class="ma-2"
-          v-model="versiculo"
-          v-for="(cap, i) in listar_livros[selectedBook].chapters"
-          :key="i"
-          fab
-          icon
-          outlined
-          @click="infoLivro(cap)"
-        >
-          {{ cap }}
-        </v-btn>
-      </v-row>
-    </div>
-    <div class="py-10 px-6" v-if="versiculos">
-      <!-- pesquisar e chamar livros -->
-      <v-row justify="space-around">
-        <v-btn
-          class="ma-2"
-          v-model="versiculo"
-          v-for="(ver, i) in listar_capitulos[0]?.chapter.verses"
-          :key="i"
-          fab
-          icon
-          outlined
-          @click=" conteudo = true; versiculos = false"
-        >
-          {{ ver }}
-        </v-btn>
-      </v-row>
-      {{ versiculo }}
-    </div>
-    <div v-if="conteudo">
-      <h1>CONTEUDO</h1>
-    </div>
+              <v-text-field
+                color="purple darken-1"
+                v-model="benched"
+                :items="listar_livros"
+                :loading="isLoading"
+                :search-input.sync="search"
+                chips
+                clearable
+                hide-selected
+                item-text="name"
+                item-value="id"
+                label="Search for a book..."
+                prepend-icon="mdi-magnify"
+                single-line
+              />
+            </v-responsive>
+
+            <v-card
+              class="mx-auto"
+              tile
+            >
+              <v-list rounded>
+                <v-list-item-group
+                  v-model="selectedBook"
+                  color="primary"
+                >
+                  <v-list-item
+                    v-for="(item, i) in listar_livros"
+                    :key="i"
+                    @click="nextTab('livros')"
+                  >
+                    <v-list-item-content>
+                      <v-list-item-title v-text="item.name" />
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list-item-group>
+              </v-list>
+            </v-card>
+          </div>
+        </v-tab-item>
+        <v-tab-item id="capitulos" key="capitulos">
+          <div class="py-10 px-6">
+            <v-row justify="space-around">
+              <v-btn
+                class="ma-2"
+                v-model="versiculo"
+                v-for="(cap, i) in listar_livros[selectedBook]?.chapters"
+                :key="i"
+                fab
+                icon
+                outlined
+                @click="infoLivro(cap); nextTab ('capitulos')"
+              >
+                {{ cap }}
+              </v-btn>
+            </v-row>
+          </div>
+        </v-tab-item>
+        <v-tab-item id="versiculos" key="versiculos">
+          <div class="py-10 px-6">
+            <!-- pesquisar e chamar livros -->
+            <v-row justify="space-around">
+              <v-btn
+                class="ma-2"
+                v-model="versiculo"
+                v-for="(ver, i) in listar_capitulos[0]?.chapter.verses"
+                :key="i"
+                fab
+                icon
+                outlined
+                @click="nextTab('versiculos')"
+              >
+                {{ ver }}
+              </v-btn>
+            </v-row>
+            {{ versiculo }}
+          </div>
+        </v-tab-item>
+      </v-tabs>
+      <div v-if="conteudo">
+        CONTEUDOOOO
+      </div>
+    </v-card>
   </div>
 </template>
 <script>
@@ -129,6 +133,7 @@ import api from '~api'
 
 export default {
   data: () => ({
+    selectedTab: 'livros',
     livros: false,
     capitulos: false,
     versiculos: false,
@@ -158,6 +163,15 @@ export default {
         this.listar_capitulos = result.livrosInfo
       })
       console.log('esse é o livro', this.livro)
+    },
+    nextTab (selected) {
+      if (selected === 'livros') {
+        this.selectedTab = 'capitulos'
+      } else if (selected === 'capitulos') {
+        this.selectedTab = 'versiculos'
+      } else {
+        this.conteudo = true
+      }
     }
   }
 }
