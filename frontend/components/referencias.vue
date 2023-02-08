@@ -123,15 +123,19 @@ jsdjsdn
         </v-tab-item>
       </v-tabs>
       <div v-if="conteudo">
-        CONTEUDOOOO
+        <conteudoCap />
       </div>
     </v-card>
   </div>
 </template>
 <script>
 import api from '~api'
+import conteudoCap from '~/components/conteudoCap.vue'
 
 export default {
+  components: {
+    conteudoCap
+  },
   data: () => ({
     selectedTab: 'livros',
     livros: false,
@@ -165,6 +169,7 @@ export default {
       console.log('esse é o livro', this.livro)
     },
     nextTab (selected) {
+      debugger
       if (selected === 'livros') {
         this.selectedTab = 'capitulos'
       } else if (selected === 'capitulos') {
