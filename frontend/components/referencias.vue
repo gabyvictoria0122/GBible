@@ -39,18 +39,23 @@ jsdjsdn
     <div v-if="versiculos">
       <!-- pesquisar e chamar livros -->
       <h2>VERSICULOS</h2>
+      {{ versiculo }}
     </div>
-    <div v-if="capitulos">
-      <h2>CAPITULOS</h2>
-      <v-btn
-        v-for="(cap, i) in chapters"
-        :key="i"
-        fab
-        icon
-        outlined
-      >
-        {{ cap }}
-      </v-btn>
+    <div class="py-10 px-6" v-if="capitulos">
+      <v-row justify="space-around">
+        <v-btn
+          class="ma-2"
+          v-model="versiculo"
+          v-for="(cap, i) in listar_livros[selectedBook].chapters"
+          :key="i"
+          fab
+          icon
+          outlined
+          @click="livros = false; capitulos = false; versiculos = true"
+        >
+          {{ cap }}
+        </v-btn>
+      </v-row>
     </div>
     <div v-if="livros">
       <v-responsive
@@ -60,7 +65,7 @@ jsdjsdn
         <v-text-field
           color="purple darken-1"
           v-model="benched"
-          :items="listar_books"
+          :items="listar_livros"
           :loading="isLoading"
           :search-input.sync="search"
           chips
@@ -75,27 +80,25 @@ jsdjsdn
       </v-responsive>
 
       <v-card
-        elevation="16"
-        max-width="400"
         class="mx-auto"
+        tile
       >
-        <v-virtual-scroll
-          :bench="benched"
-          :items="listar_books"
-          height="300"
-          item-height="64"
-        >
-          <template v-slot:default="{ item }">
-            <v-list-item :key="item" @click="livros = false; capitulos = true; versiculos = false">
+        <v-list rounded>
+          <v-list-item-group
+            v-model="selectedBook"
+            color="primary"
+          >
+            <v-list-item
+              v-for="(item, i) in listar_livros"
+              :key="i"
+              @click=" livros = false; capitulos = true; versiculos = false"
+            >
               <v-list-item-content>
-                <v-list-item-title>
-                  {{ item.name }}
-                </v-list-item-title>
+                <v-list-item-title v-text="item.name" />
               </v-list-item-content>
             </v-list-item>
-            <v-divider />
-          </template>
-        </v-virtual-scroll>
+          </v-list-item-group>
+        </v-list>
       </v-card>
     </div>
   </div>
@@ -112,14 +115,22 @@ export default {
     chapters: null,
     isLoading: false,
     search: null,
-    benched: 0,
-    listar_books: []
+    livro: null,
+    versiculo: null,
+    benched: null,
+    listar_livros: {}
   }),
   mounted () {
     this.livros = true
+    debugger
     api.list_books().then(result => {
-      this.listar_books = result.livros
+      this.listar_livros = result.livros
     })
+  },
+  methods: {
+    mostraLivro () {
+      console.log('esse é o livro', this.livro)
+    }
   }
 }
 </script>
