@@ -84,7 +84,7 @@ jsdjsdn
           </div>
         </v-tab-item>
         <v-tab-item id="capitulos" key="capitulos">
-          <div class="py-10 px-6">
+          <div class="overflow-auto py-6 px-6 fixed">
             <v-row justify="space-around">
               <v-btn
                 class="ma-2"
@@ -182,5 +182,7 @@ export default {
 </script>
 
 <style>
-
+.fixed{
+  height:76vh
+}
 </style>
