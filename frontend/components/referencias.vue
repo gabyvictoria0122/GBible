@@ -16,7 +16,6 @@ jsdjsdn
       >
         <v-tab
           href="#livros"
-          :active-class="livros"
           @click=" livros = true; capitulos = false; versiculos = false"
         >
           LIVROS
@@ -24,7 +23,6 @@ jsdjsdn
 
         <v-tab
           href="#capitulos"
-          :active-class="capitulos"
           @click=" livros = false; capitulos = true; versiculos = false"
         >
           CAPÍTULOS
@@ -45,7 +43,6 @@ jsdjsdn
             >
               <v-text-field
                 color="purple darken-1"
-                v-model="benched"
                 :items="listar_livros"
                 :loading="isLoading"
                 :search-input.sync="search"
