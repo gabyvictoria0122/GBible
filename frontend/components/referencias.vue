@@ -106,7 +106,7 @@ jsdjsdn
               <v-btn
                 class="ma-2"
                 v-model="versiculo"
-                v-for="(ver, i) in listar_capitulos"
+                v-for="(ver, i) in listar_capitulos.chapter.verses"
                 :key="i"
                 fab
                 icon
@@ -116,7 +116,7 @@ jsdjsdn
                 {{ ver }}
               </v-btn>
             </v-row>
-            {{ versiculo }}
+            <!-- {{ versiculo }} -->
           </div>
         </v-tab-item>
       </v-tabs>
@@ -150,17 +150,16 @@ export default {
     this.livros = true
     api.list_books().then(result => {
       this.listar_livros = result
+      console.log(this.listar_livros)
     })
   },
   methods: {
     infoLivro (abbrev, chapterId) {
-      this.livro = this.listar_livros[abbrev].name
-      console.log('aaaaaaaaaa', abbrev, this.livro)
-      this.livros = false
-      this.capitulos = false
-      this.versiculos = true
+      this.livro = this.listar_livros[abbrev].abbrev.pt
+      console.log('abrevia', this.livro, 'num', chapterId)
       api.list_chapters(this.livro, chapterId).then(result => {
-        this.listar_capitulos = result.livrosInfo
+        this.listar_capitulos = result
+        console.log(this.listar_capitulos)
       })
     },
     nextTab (selected) {

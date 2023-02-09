@@ -52,8 +52,8 @@ export default {
     return data.json()
   },
   async list_chapters (abbrev, chapter) {
-    console.log('aqui', abbrev, chapter)
-    const url = `https://www.abibliadigital.com.br/api/verses/ra/{abbrev}/{chapter}`
+    console.log('aqui API', abbrev, chapter)
+    const url = `https://www.abibliadigital.com.br/api/verses/ra/${abbrev}/${chapter}`
     const data = await fetch(url)
     return data.json()
   }
