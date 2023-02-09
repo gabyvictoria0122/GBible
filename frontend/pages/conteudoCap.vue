@@ -4,6 +4,7 @@
       v-for=" versos in listar_conteudo[0]?.verses"
       :key="versos.number"
     >
+      {{versos.number}}
       {{versos.text}}
     </v-list-item>
   </div>
@@ -13,6 +14,7 @@
 import api from '~api'
 
 export default {
+  layout: 'complex',
   data: () => ({
     cap: null,
     ver: null,

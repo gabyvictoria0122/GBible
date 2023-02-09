@@ -142,13 +142,13 @@ export default {
     livro: null,
     versiculo: null,
     capitulo: null,
-    listar_livros: {},
+    listar_livros: [],
     listar_capitulos: []
   }),
   mounted () {
     this.livros = true
     api.list_books().then(result => {
-      this.listar_livros = result.livros
+      this.listar_livros = result
       console.log(result)
     })
   },
@@ -174,6 +174,11 @@ export default {
     },
     lerConteudo (versiculo, capitulo) {
       this.$router.push({ name: 'conteudoCap', params: { versiculo, capitulo } })
+    },
+    async chamaLivros () {
+      const data = await api.list_books()
+      this.listar_livros = data
+      debugger
     }
   }
 }
