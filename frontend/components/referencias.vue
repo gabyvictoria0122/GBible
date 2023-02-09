@@ -149,6 +149,7 @@ export default {
     this.livros = true
     api.list_books().then(result => {
       this.listar_livros = result.livros
+      console.log(result)
     })
   },
   methods: {

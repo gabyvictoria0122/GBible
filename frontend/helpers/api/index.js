@@ -13,9 +13,6 @@ export default {
   settings () {
     return get('/api/settings')
   },
-  list_todos () {
-    return get('/api/list_todos')
-  },
   add_todo (newtask) {
     return post('/api/add_todo', {new_task: newtask})
   }
