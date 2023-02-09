@@ -28,7 +28,6 @@ async function fetch_all_pages (url) {
 export const api = {
   set_apikey (k) {
     apikey = k
-    console.log()
   },
   async search_users (searchstring) {
     const url = `https://api.github.com/search/users?q=${searchstring}`

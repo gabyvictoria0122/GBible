@@ -36,7 +36,9 @@ jsdjsdn
           VERSÍCULOS
         </v-tab>
         <v-tab-item id="livros" key="livros">
-          <div>
+          <div
+            class=" overflow-auto fixed"
+          >
             <v-responsive
               max-width="400"
               class="mx-auto mb-4"
@@ -58,7 +60,6 @@ jsdjsdn
             </v-responsive>
 
             <v-card
-              class="mx-auto"
               tile
             >
               <v-list rounded>
@@ -91,7 +92,7 @@ jsdjsdn
                 fab
                 icon
                 outlined
-                @click="infoLivro(cap); nextTab ('capitulos')"
+                @click="infoLivro(selectedBook, cap); nextTab ('capitulos')"
               >
                 {{ cap }}
               </v-btn>
@@ -105,7 +106,7 @@ jsdjsdn
               <v-btn
                 class="ma-2"
                 v-model="versiculo"
-                v-for="(ver, i) in listar_capitulos[0]?.chapter.verses"
+                v-for="(ver, i) in listar_capitulos"
                 :key="i"
                 fab
                 icon
@@ -149,19 +150,18 @@ export default {
     this.livros = true
     api.list_books().then(result => {
       this.listar_livros = result
-      console.log(result)
     })
   },
   methods: {
-    infoLivro (abbrev) {
-      this.capitulo = abbrev
+    infoLivro (abbrev, chapterId) {
+      this.livro = this.listar_livros[abbrev].name
+      console.log('aaaaaaaaaa', abbrev, this.livro)
       this.livros = false
       this.capitulos = false
       this.versiculos = true
-      api.list_books().then(result => {
+      api.list_chapters(this.livro, chapterId).then(result => {
         this.listar_capitulos = result.livrosInfo
       })
-      console.log('esse é o livro', abbrev)
     },
     nextTab (selected) {
       if (selected === 'livros') {
@@ -174,18 +174,18 @@ export default {
     },
     lerConteudo (versiculo, capitulo) {
       this.$router.push({ name: 'conteudoCap', params: { versiculo, capitulo } })
-    },
-    async chamaLivros () {
-      const data = await api.list_books()
-      this.listar_livros = data
-      debugger
     }
+    // async chamaLivros () {
+    //   const data = await api.list_books()
+    //   this.listar_livros = data
+    //   debugger
+    // }
   }
 }
 </script>
 
 <style>
 .fixed{
-  height:76vh
+  height:77vh
 }
 </style>
