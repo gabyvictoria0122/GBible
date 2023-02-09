@@ -113,7 +113,7 @@ jsdjsdn
                 fab
                 icon
                 outlined
-                @click="nextTab('versiculos')"
+                @click="lerConteudo(ver, capitulo)"
               >
                 {{ ver }}
               </v-btn>
@@ -123,19 +123,15 @@ jsdjsdn
         </v-tab-item>
       </v-tabs>
       <div v-if="conteudo">
-        <conteudoCap />
+        <router-link to="/conteudo">conteudoCap</router-link>
       </div>
     </v-card>
   </div>
 </template>
 <script>
 import api from '~api'
-import conteudoCap from '~/components/conteudoCap.vue'
 
 export default {
-  components: {
-    conteudoCap
-  },
   data: () => ({
     selectedTab: 'livros',
     livros: false,
@@ -148,7 +144,7 @@ export default {
     search: null,
     livro: null,
     versiculo: null,
-    benched: null,
+    capitulo: null,
     listar_livros: {},
     listar_capitulos: []
   }),
@@ -160,16 +156,16 @@ export default {
   },
   methods: {
     infoLivro (abbrev) {
+      this.capitulo = abbrev
       this.livros = false
       this.capitulos = false
       this.versiculos = true
       api.list_books().then(result => {
         this.listar_capitulos = result.livrosInfo
       })
-      console.log('esse é o livro', this.livro)
+      console.log('esse é o livro', abbrev)
     },
     nextTab (selected) {
-      debugger
       if (selected === 'livros') {
         this.selectedTab = 'capitulos'
       } else if (selected === 'capitulos') {
@@ -177,6 +173,9 @@ export default {
       } else {
         this.conteudo = true
       }
+    },
+    lerConteudo (versiculo, capitulo) {
+      this.$router.push({ name: 'conteudoCap', params: { versiculo, capitulo } })
     }
   }
 }

@@ -6,6 +6,7 @@ import Bible from '~/pages/bible.vue'
 import More from '~/pages/more.vue'
 import Record from '~/pages/record.vue'
 import Start from '~/pages/start.vue'
+import conteudoCap from '~/pages/conteudoCap.vue'
 
 Vue.use(Router)
 
@@ -17,7 +18,8 @@ export const routerOptions = {
     {path: '/bible', component: Bible, name: 'bible'},
     {path: '/more', component: More, name: 'more'},
     {path: '/record', component: Record, name: 'record'},
-    {path: '/start', component: Start, name: 'start'}
+    {path: '/start', component: Start, name: 'start'},
+    {path: '/conteudo', component: conteudoCap, name: 'conteudoCap'}
   ]
 }
 
