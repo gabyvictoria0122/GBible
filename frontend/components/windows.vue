@@ -12,7 +12,7 @@
         :key="`card-${n}`"
       >
         <v-card
-          color="grey"
+          color="transparent"
           height="200"
         >
           <v-row
@@ -31,7 +31,7 @@
       </v-window-item>
     </v-window>
 
-    <v-card-actions class="justify-space-between">
+    <v-card-actions color="transparent" class="justify-space-between">
       <v-btn
         text
         @click="prev"
