@@ -2,7 +2,7 @@
   <v-app id="inspire">
     <!-- <toolbar/> -->
     <v-main>
-      <v-container fluid>
+      <v-container fill-height>
         <nuxt />
       </v-container>
     </v-main>
