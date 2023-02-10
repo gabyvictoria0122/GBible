@@ -106,12 +106,12 @@ jsdjsdn
               <v-btn
                 class="ma-2"
                 v-model="versiculo"
-                v-for="(ver, i) in listar_capitulos.chapter.verses"
+                v-for="(ver, i) in listar_versiculos"
                 :key="i"
                 fab
                 icon
                 outlined
-                @click="lerConteudo(ver, capitulo)"
+                @click="lerConteudo(ver, capitulo, livro)"
               >
                 {{ ver }}
               </v-btn>
@@ -132,11 +132,8 @@ import api from '~api'
 export default {
   data: () => ({
     selectedTab: 'livros',
-    livros: false,
-    capitulos: false,
-    versiculos: false,
-    conteudo: false,
     selectedBook: null,
+    conteudo: false,
     chapters: null,
     isLoading: false,
     search: null,
@@ -144,22 +141,20 @@ export default {
     versiculo: null,
     capitulo: null,
     listar_livros: [],
-    listar_capitulos: []
+    listar_versiculos: null
   }),
   mounted () {
     this.livros = true
     api.list_books().then(result => {
       this.listar_livros = result
-      console.log(this.listar_livros)
     })
   },
   methods: {
     infoLivro (abbrev, chapterId) {
+      this.capitulo = chapterId
       this.livro = this.listar_livros[abbrev].abbrev.pt
-      console.log('abrevia', this.livro, 'num', chapterId)
       api.list_chapters(this.livro, chapterId).then(result => {
-        this.listar_capitulos = result
-        console.log(this.listar_capitulos)
+        this.listar_versiculos = result.chapter.verses
       })
     },
     nextTab (selected) {
@@ -171,8 +166,9 @@ export default {
         this.conteudo = true
       }
     },
-    lerConteudo (versiculo, capitulo) {
-      this.$router.push({ name: 'conteudoCap', params: { versiculo, capitulo } })
+    lerConteudo (versiculo, capitulo, livro) {
+      console.log('ler conteudoo', versiculo, capitulo, livro)
+      this.$router.push({ name: 'conteudoCap', params: { versiculo, capitulo, livro } })
     }
     // async chamaLivros () {
     //   const data = await api.list_books()

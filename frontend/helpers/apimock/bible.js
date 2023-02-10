@@ -1,4 +1,4 @@
-export const bible = [
+export const bible =
   {
     'book': {
       'abbrev': {'pt': 'gn', 'en': 'gn'},
@@ -45,4 +45,3 @@ export const bible = [
       {'number': 31, 'text': 'E Deus viu tudo o que havia feito, e tudo havia ficado muito bom. Passaram-se a tarde e a manhã; esse foi o sexto dia.'}
     ]
   }
-]

@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="overflow-auto fixed">
     <v-list-item
-      v-for=" versos in listar_conteudo[0]?.verses"
+      v-for=" versos in listar_conteudo.verses"
       :key="versos.number"
     >
       {{versos.number}}
@@ -23,13 +23,16 @@ export default {
   mounted () {
     this.ver = this.$route.params.versiculo
     this.cap = this.$route.params.capitulo
-    api.list_books().then(result => {
-      this.listar_conteudo = result.livrosInfo
+    this.liv = this.$route.params.livro
+    api.list_chapters(this.liv, this.cap).then(result => {
+      this.listar_conteudo = result
     })
   }
 }
 </script>
 
 <style>
-
+.fixed{
+  height:77vh
+}
 </style>
