@@ -1,7 +1,7 @@
 <template>
   <v-container class="flex-column d-flex justify-space-around mb-6" fill-height>
-    <h1 class="align-center">GBible</h1>
-    <windows />
+    <h1 style="font-size: 5rem" class="align-center">GBible</h1>
+    <!-- <windows /> -->
     <div>
       <v-row cols="12" sm="12">
         <v-col class="d-flex flex-column">
@@ -12,7 +12,7 @@
     </div>
     <div>
       <v-btn
-        class="align-end"
+        class="align-end white--text"
         plain
         rounded
         x-large
@@ -28,12 +28,12 @@
 </template>
 
 <script>
-import windows from '../components/windows.vue'
+// import windows from '../components/windows.vue'
 
 export default {
   layout: 'default',
   components: {
-    windows
+    // windows
   },
   data () {
     return {}

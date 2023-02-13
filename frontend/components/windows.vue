@@ -7,10 +7,7 @@
       v-model="onboarding"
       reverse
     >
-      <v-window-item
-        v-for="n in length"
-        :key="`card-${n}`"
-      >
+      <v-window-item>
         <v-card
           color="transparent"
           height="200"
@@ -24,7 +21,26 @@
               style="font-size: 5rem;"
               class="white--text"
             >
-              Slide {{ n }}
+              Welcome
+            </h1>
+          </v-row>
+        </v-card>
+      </v-window-item>
+      <v-window-item>
+        <v-card
+          color="transparent"
+          height="200"
+        >
+          <v-row
+            class="fill-height"
+            align="center"
+            justify="center"
+          >
+            <h1
+              style="font-size: 5rem;"
+              class="white--text"
+            >
+              Hey
             </h1>
           </v-row>
         </v-card>
