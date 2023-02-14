@@ -167,7 +167,6 @@ export default {
       }
     },
     lerConteudo (versiculo, capitulo, livro) {
-      console.log('ler conteudoo', versiculo, capitulo, livro)
       this.$router.push({ name: 'conteudoCap', params: { versiculo, capitulo, livro } })
     }
     // async chamaLivros () {

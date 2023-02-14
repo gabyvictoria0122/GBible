@@ -52,7 +52,6 @@ export default {
     return data.json()
   },
   async list_chapters (livro, chapter) {
-    console.log('aqui API', livro, chapter)
     const url = `https://www.abibliadigital.com.br/api/verses/ra/${livro}/${chapter}`
     const data = await fetch(url)
     return data.json()

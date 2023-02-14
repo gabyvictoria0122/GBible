@@ -46,7 +46,6 @@ export default {
     open_login_dialog (evt) {
       this.$refs.login_dialog.open()
       if (this.$store.state.auth.currentUser) {
-        console.log('to logada')
         this.$router.push({ name: 'start' })
       }
       evt.stopPropagation()

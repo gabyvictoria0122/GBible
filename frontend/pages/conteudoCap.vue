@@ -12,10 +12,6 @@
 
 <script>
 import api from '~api'
-
-// document.getElementById('test').addEventListener('selectionchange', function (event) {
-//   console.log('pegooo')
-// }, false)
 export default {
   layout: 'complex',
   data: () => ({
@@ -25,20 +21,12 @@ export default {
     listar_conteudo: []
   }),
   mounted () {
-    this.$refs.test.addEventListerner('click', function (event) {
-      console.log(event)
-    }, false)
     this.ver = this.$route.params.versiculo
     this.cap = this.$route.params.capitulo
     this.liv = this.$route.params.livro
     api.list_chapters(this.liv, this.cap).then(result => {
       this.listar_conteudo = result
     })
-  },
-  methods: {
-    mostra (text) {
-      console.log(text)
-    }
   }
 }
 </script>
