@@ -45,6 +45,7 @@ export default {
       const user = await api.login(this.username, this.password)
       if (user) {
         this.$store.commit('auth/setCurrentUser', user)
+        this.$router.push({ name: 'start' })
         this.visible = false
       } else {
         this.error = true

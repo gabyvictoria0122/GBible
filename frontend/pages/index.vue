@@ -6,7 +6,8 @@
       <v-row cols="12" sm="12">
         <v-col class="d-flex flex-column">
           <v-btn x-large rounded>Inscrever-se</v-btn>
-          <v-btn x-large class="my-4" rounded>Entrar</v-btn>
+          <v-btn x-large class="my-4" @click="open_login_dialog($event)" rounded>Entrar</v-btn>
+          <login-dialog ref="login_dialog" />
         </v-col>
       </v-row>
     </div>
@@ -28,15 +29,28 @@
 </template>
 
 <script>
-// import windows from '../components/windows.vue'
+import loginDialog from '~/components/login-dialog.vue'
 
 export default {
   layout: 'default',
   components: {
-    // windows
+    // eslint-disable-next-line vue/no-unused-components
+    loginDialog
   },
-  data () {
-    return {}
+  computed: {
+    logged_user () {
+      return this.$store.state.auth.currentUser
+    }
+  },
+  methods: {
+    open_login_dialog (evt) {
+      this.$refs.login_dialog.open()
+      if (this.$store.state.auth.currentUser) {
+        console.log('to logada')
+        this.$router.push({ name: 'start' })
+      }
+      evt.stopPropagation()
+    }
   }
 }
 </script>
