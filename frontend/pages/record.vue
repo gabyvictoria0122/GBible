@@ -74,7 +74,8 @@
       >
         <v-row justify="space-between">
           <v-col cols="7">
-            This order was archived.
+            Tudo posso naquele que me fortalece.
+- Filipenses 4:13
           </v-col>
           <v-col
             class="text-right"
@@ -97,9 +98,10 @@
               label
               small
             >
-              APP
+              FÉ
             </v-chip>
-            Digital Downloads fulfilled 1 item.
+            Porque Deus é quem efetua em vocês tanto o querer como o realizar, segundo a sua boa vontade.
+- Filipenses 2:13
           </v-col>
           <v-col
             class="text-right"
@@ -117,7 +119,8 @@
       >
         <v-row justify="space-between">
           <v-col cols="7">
-            Order confirmation email was sent to John Leider (john@vuetifyjs.com).
+            Mas o meu justo viverá pela fé. E, se retroceder, não me agradarei dele".
+- Hebreus 10:38
           </v-col>
           <v-col
             class="text-right"
@@ -135,7 +138,7 @@
         <v-btn
           class="mx-0"
         >
-          Resend Email
+          Ver notas
         </v-btn>
       </v-timeline-item>
 
@@ -146,7 +149,8 @@
       >
         <v-row justify="space-between">
           <v-col cols="7">
-            A $15.00 USD payment was processed on PayPal Express Checkout
+            Porque vivemos por fé, e não pelo que vemos.
+- 2 Coríntios 5:
           </v-col>
           <v-col
             class="text-right"
@@ -163,7 +167,8 @@
       >
         <v-row justify="space-between">
           <v-col cols="7">
-            John Leider placed this order on Online Store (checkout #1937432132572).
+            O que é nascido de Deus vence o mundo; e esta é a vitória que vence o mundo: a nossa fé.
+- 1 João 5:4
           </v-col>
           <v-col
             class="text-right"

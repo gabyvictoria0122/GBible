@@ -7,7 +7,7 @@
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on" class="ma-0 ml-5">
           <v-avatar size="36px">
-            <img src="https://graph.facebook.com/4/picture?width=300&height=300">
+            <img src="../static/GBIBLE.png">
           </v-avatar>
         </v-btn>
       </template>
@@ -16,7 +16,7 @@
           <v-list-item>
             <v-list-item-avatar>
               <v-avatar>
-                <img src="https://graph.facebook.com/4/picture?width=300&height=300">
+                <img src="../static/GBIBLE.png">
               </v-avatar>
             </v-list-item-avatar>
             <v-list-item-content>
