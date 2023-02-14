@@ -4,8 +4,7 @@
       v-for=" versos in listar_conteudo.verses"
       :key="versos.number"
     >
-      {{versos.number}}
-      <p>{{versos.text}}</p>
+      <p><span style="color:purple">{{versos.number}}</span> {{versos.text}}</p>
     </v-list-item>
   </div>
 </template>
