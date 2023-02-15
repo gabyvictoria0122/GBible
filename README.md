@@ -1,6 +1,6 @@
 # Sobre o Projeto
 
-[link video explicativo](https://youtu.be/M9boBE1XHyI)
+[Link video explicativo](https://youtu.be/M9boBE1XHyI)
 
 GBible é um projeto mobile first, fullstack, baseado no [template Djavue2](https://github.com/evolutio/djavue2) que permite você ler facilmente, e de maneira prática, todos os 66 livros da Bíblia, em suas varias versões e idiomas. Em features futuras, GBible também será capaz de registrar versículos/cápitulos já lidos, realizar marcações e anotações personalizadas da maneira que o usuário(a) desejar.
 
