@@ -1,11 +1,32 @@
-# 1. Dev-env, super-easy mode (docker all things)
+# Sobre o Projeto
 
-Requirements:
-- [Install docker](https://docs.docker.com/install/)
-- Learn [Python](https://docs.python.org/3/tutorial/) and [Django](https://docs.djangoproject.com/en/2.0/intro/tutorial01/)
-- Learn [vue.js](vuejs.org)
-- Learn [Nuxt.js](https://nuxtjs.org/)
-- Get familiar with [Vuetify.js](vuetifyjs.com/) components
+[link video explicativo](https://youtu.be/M9boBE1XHyI)
+
+GBible é um projeto mobile first, fullstack, baseado no [template Djavue2](https://github.com/evolutio/djavue2) que permite você ler facilmente, e de maneira prática, todos os 66 livros da Bíblia, em suas varias versões e idiomas. Em features futuras, GBible também será capaz de registrar versículos/cápitulos já lidos, realizar marcações e anotações personalizadas da maneira que o usuário(a) desejar.
+
+Escolhi esse tema porque senti falta de pequenos detalhes ao utilizar outros apps desse mesmo tema. Por exemplo:
+
+ * Permitir o usuário grifar uma palavra especifica;
+
+ * Registrar os capítulos/versículos já lidos; 
+
+ * Montar planos de leitura. Ex: prever quantos capítulos ler para conseguir ler a bíblia toda em um ano;   
+
+ * Ter hinos da harpa (sujestão de um amigo).
+ 
+ 
+Obviamente não implementei todas as ideias acima, mas ler o conteudo bíblico funciona tanto na API quanto na APImock. E só de fazer essa parte básica consegui dar uma aprimorada nas minhas habilidades com o Vuetify, implementar uma APImock e me lembrar que **devo** revisar Django, pois fiquei muito travada nessa parte. 
+ 
+
+
+https://user-images.githubusercontent.com/104435995/219044063-501ce062-37f1-4884-bae9-bbaff8242a97.mp4
+
+
+ 
+
+# Como rodar
+## 1. Dev-env, super-easy mode (docker all things)
+
 
 Step by step
 
@@ -40,11 +61,11 @@ What is happenning:
 * Therefore, when `dkup` is running, you get a fully working dev-environment by pointing your browser to http://localhost, and a frontend-only-mock-api-based environment by pointing your browser to http://localhost:3001. Each one is more useful on different situations.
 * You're supposed to create features first by implementing them on 3001, then validate them, and only then write the backend APIs and integrate them. Experience shows this process is very productive.
 
-# 2. Dev-env, normal-easy mode (dockerize nginx + postgres)
+## 2. Dev-env, normal-easy mode (dockerize nginx + postgres)
 
 Running everything inside docker is a quick and easy way to get started, but sometimes we need to run things "for real", for example, when you need to debug python code.
 
-## Python setup
+### Python setup
 
 Requirements:
  - Understand about python [virtualenvs](https://docs.python.org/3/tutorial/venv.html)
@@ -91,54 +112,3 @@ API_MOCK=0 npm run dev  # Starts nuxt frontend on port 3000
 ```
 
 Since nginx is also running you go ahead and point your browser to http://localhost/ and you should have a fully integrated frontend+backend dev env.
-
-# 3. Deploy to production
-
-Rent a linux machine on a cloud somewhere. Let's say you'll be using ubuntu on AWS.
-Install docker and nginx. Create an empty postgres database gbible owned by a user gbible.
-
-On your remote machine, create a file ~/gbible.env:
-
-```
-DJANGO_DB_PASSWORD=<gbible's password>
-DJANGO_DB_HOST=<database_ip>
-DJANGO_DB_NAME=gbible
-DJANGO_DB_USER=gbible
-DJANGO_DEBUG=0
-```
-
-Have a nginx config serving your domain like:
-
-```
-server {
-    server_name  gbible.example.com;
-
-    location /api {
-        proxy_pass http://localhost:8000/api;
-    }
-    location /admin {
-        proxy_pass http://localhost:8000/admin;
-    }
-    location /static {
-        alias /home/ubuntu/dkdata/gbible/static;
-        add_header Cache-Control public;
-        add_header ETag "";
-    }
-    location / {
-        proxy_pass http://localhost:3000/;
-    }
-
-    listen 80;
-}
-```
-
-(Replace "gbible.example.com" with your production domain)
-
-On your development environment, edit the `HOST_PROD` variable on `dev.sh` to make it point to your production domain, then run on terminal:
-
-```
-source dev.sh
-deploy_prod
-```
-
-If it works the first time, go have a beer and take the day off :-)
