@@ -27,7 +27,7 @@ https://user-images.githubusercontent.com/104435995/219044063-501ce062-37f1-4884
 # Como rodar
 ## 1. Dev-env, super-easy mode (docker all things)
 
-Clone this repository and follow the steps below.
+Clone this repository and in the repository of this project follow the steps below.
 
 Step by step
 
