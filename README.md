@@ -42,6 +42,7 @@ dkup  # Brings up everything
 With `dkup` running, open another terminal
 
 ```bash
+source dev.sh
 dk bash  # starts bash inside "gbible" container
 ./manage.py migrate  # create database tables and stuff
 ./manage.py createsuperuser  # creates an application user in the database
@@ -113,3 +114,5 @@ API_MOCK=0 npm run dev  # Starts nuxt frontend on port 3000
 ```
 
 Since nginx is also running you go ahead and point your browser to http://localhost/ and you should have a fully integrated frontend+backend dev env.
+
+***For a better experience use in the mobile dimension***
