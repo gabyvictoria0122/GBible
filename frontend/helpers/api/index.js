@@ -1,4 +1,5 @@
-import {get, post} from './ajaxutils'
+import { get, post } from './ajaxutils'
+import axios from 'axios'
 
 // async function _fetch (url) {
 //   let headers = {}
@@ -26,34 +27,55 @@ import {get, post} from './ajaxutils'
 // }
 
 export default {
-  login (username, password) {
-    return post('/api/login', {username, password})
+  login(username, password) {
+    return post('/api/login', { username, password })
   },
-  logout () {
+  logout() {
     return post('/api/logout')
   },
-  whoami () {
+  whoami() {
     return get('/api/whoami')
   },
-  settings () {
+  settings() {
     return get('/api/settings')
   },
-  add_todo (newtask) {
-    return post('/api/add_todo', {new_task: newtask})
+  add_todo(newtask) {
+    return post('/api/add_todo', { new_task: newtask })
   },
   // async list_books () {
   //   const url = 'https://www.abibliadigital.com.br/api/books'
   //   const data = await fetch_all_pages(url)
   //   return data
   // },
-  async list_books () {
+  async list_books() {
     const url = 'https://www.abibliadigital.com.br/api/books'
     const data = await fetch(url)
     return data.json()
   },
-  async list_chapters (livro, chapter) {
+  async list_chapters(livro, chapter) {
     const url = `https://www.abibliadigital.com.br/api/verses/ra/${livro}/${chapter}`
     const data = await fetch(url)
     return data.json()
-  }
+  },
+  register: (username, email, password) => {
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+    return axios
+      .post("/api/register", {
+        username: username,
+        email: email,
+        password: password,
+      },
+        {
+          headers: {
+            'X-CSRFToken': csrftoken
+          }
+        })
+      .then(response => {
+        return response.data
+      })
+      .catch(error => {
+        throw error
+      })
+  },
+
 }

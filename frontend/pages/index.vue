@@ -5,20 +5,14 @@
     <div>
       <v-row cols="12" sm="12">
         <v-col class="d-flex flex-column">
-          <v-btn x-large rounded>Inscrever-se</v-btn>
-          <v-btn x-large class="my-4" @click="open_login_dialog($event)" rounded>Entrar</v-btn>
+          <v-btn x-large rounded class=" my-4" @click="$event => open_register_dialog($eve)"> Inscrever - se </v-btn>
+          <v-btn x-large class=" my-4" @click="open_login_dialog($event)" rounded>Entrar</v-btn>
           <login-dialog ref="login_dialog" />
         </v-col>
       </v-row>
     </div>
     <div>
-      <v-btn
-        class="align-end white--text"
-        plain
-        rounded
-        x-large
-        :to="{name: 'start'}"
-      >
+      <v-btn class="align-end white--text" plain rounded x-large :to="{ name: 'start' }">
         Criar conta mais tarde
       </v-btn>
     </div>
@@ -30,27 +24,56 @@
 
 <script>
 import loginDialog from '~/components/login-dialog.vue'
+import registerDialog from '~/components/register-dialog.vue'
 
 export default {
   layout: 'default',
   components: {
     // eslint-disable-next-line vue/no-unused-components
-    loginDialog
+    loginDialog,
+    registerDialog
   },
   computed: {
-    logged_user () {
+    logged_user() {
       return this.$store.state.auth.currentUser
     }
   },
   methods: {
-    open_login_dialog (evt) {
+    open_login_dialog(evt) {
       this.$refs.login_dialog.open()
       if (this.$store.state.auth.currentUser) {
         this.$router.push({ name: 'start' })
       }
       evt.stopPropagation()
-    }
-  }
+    },
+    open_register_dialog(evt) {
+      this.$refs.registerDialog.open()
+      evt.stopPropagation()
+    },
+    register() {
+      if (this.$refs.register_form.validate()) {
+        axios.post('/api/register/', {
+          username: this.username,
+          email: this.email,
+          password: this.password,
+        }).then(response => {
+          if (response.data.success) {
+            this.$refs.registerDialog.close()
+            this.$refs.login_dialog.open()
+            this.$store.commit('auth/setCurrentUser', response.data.user)
+            this.$router.push({ name: 'start' })
+          } else {
+            this.$refs.register_form.errors = response.data.errors
+          }
+        }).catch(error => {
+          console.error(error)
+          this.$refs.register_form.errors = ['Ocorreu um erro ao registrar o usuário. Por favor, tente novamente mais tarde.']
+        })
+      }
+    },
+  },
+
+
 }
 </script>
 
@@ -58,20 +81,23 @@ export default {
 #inspire {
   background: none;
 }
+
 .bg_video {
   position: absolute;
   right: 0;
   bottom: 0;
   z-index: -100;
 }
+
 @media (min-aspect-ratio:18/9) {
-  .bg_video{
+  .bg_video {
     width: 100%;
     height: auto;
   }
 }
+
 @media (max-aspect-ratio:18/9) {
-  .bg_video{
+  .bg_video {
     width: auto;
     height: 100%;
   }
