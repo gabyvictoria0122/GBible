@@ -5,9 +5,10 @@
     <div>
       <v-row cols="12" sm="12">
         <v-col class="d-flex flex-column">
-          <v-btn x-large rounded class=" my-4" @click="$event => open_register_dialog($eve)"> Inscrever - se </v-btn>
+          <v-btn x-large rounded class=" my-4" @click="$refs.registerDialog.dialog = true"> Inscrever - se </v-btn>
           <v-btn x-large class=" my-4" @click="open_login_dialog($event)" rounded>Entrar</v-btn>
           <login-dialog ref="login_dialog" />
+          <register-dialog ref="registerDialog" @registered="handleRegistration" />
         </v-col>
       </v-row>
     </div>
@@ -52,25 +53,29 @@ export default {
     },
     register() {
       if (this.$refs.register_form.validate()) {
-        axios.post('/api/register/', {
-          username: this.username,
-          email: this.email,
-          password: this.password,
-        }).then(response => {
-          if (response.data.success) {
-            this.$refs.registerDialog.close()
-            this.$refs.login_dialog.open()
-            this.$store.commit('auth/setCurrentUser', response.data.user)
-            this.$router.push({ name: 'start' })
-          } else {
-            this.$refs.register_form.errors = response.data.errors
-          }
-        }).catch(error => {
-          console.error(error)
-          this.$refs.register_form.errors = ['Ocorreu um erro ao registrar o usuário. Por favor, tente novamente mais tarde.']
-        })
+        const data = {
+          username_field: this.username,
+          email_field: this.email,
+          password_field: this.password,
+        };
+        axios.post('/api/register/', JSON.stringify(data))
+          .then(response => {
+            if (response.data.success) {
+              this.$refs.registerDialog.close();
+              this.$refs.login_dialog.open();
+              this.$store.commit('auth/setCurrentUser', response.data.user);
+              this.$router.push({ name: 'start' });
+            } else {
+              this.$refs.register_form.errors = response.data.errors;
+            }
+          })
+          .catch(error => {
+            console.error(error);
+            this.$refs.register_form.errors = ['Ocorreu um erro ao registrar o usuário. Por favor, tente novamente mais tarde.'];
+          });
       }
     },
+
   },
 
 
