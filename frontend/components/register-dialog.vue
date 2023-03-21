@@ -5,58 +5,71 @@
                 <h2>Registre-se</h2>
             </v-card-title>
             <v-card-text>
-                <v-form ref="registerForm">
-                    <v-text-field v-model="username" label="Nome de usuário" required></v-text-field>
-                    <v-text-field v-model="email" label="Email" required></v-text-field>
-                    <v-text-field v-model="password" label="Senha" type="password" required></v-text-field>
-                    <v-text-field v-model="confirmPassword" label="Confirme a senha" type="password"
-                        required></v-text-field>
+                <v-form ref="registerForm" v-model="valid">
+                    <v-text-field v-model="name" label="Nome de usuário" required :rules="nameRules"></v-text-field>
+                    <v-text-field v-model="email" label="Email" required :rules="emailRules"></v-text-field>
+                    <v-text-field v-model="password" label="Senha" type="password" required
+                        :rules="passwordRules"></v-text-field>
+                    <v-text-field v-model="confirmPassword" label="Confirme a senha" type="password" required
+                        :rules="confirmPasswordRules"></v-text-field>
                 </v-form>
             </v-card-text>
             <v-card-actions>
-                <v-btn color="primary" @click="register">Registre-se</v-btn>
-                <v-btn @click="dialog = false">Cancelar</v-btn>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="close">Fechar</v-btn>
+                <v-btn color="blue darken-1" text @click="register" :disabled="!valid">Registrar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
 </template>
   
 <script>
+import axios from 'axios'
+
 export default {
-    data() {
-        return {
-            dialog: false,
-            username: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-        }
-    },
+    name: 'RegisterDialog',
+    data: () => ({
+        dialog: false,
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        valid: false,
+        nameRules: [
+            (v) => !!v || 'Name is required',
+            (v) => (v && v.length <= 20) || 'Name must be less than 20 characters',
+        ],
+        emailRules: [
+            (v) => !!v || 'E-mail is required',
+            (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+        ],
+        passwordRules: [
+            (v) => !!v || 'Password is required',
+            (v) => (v && v.length >= 8) || 'Password must be at least 8 characters',
+        ],
+        confirmPasswordRules: [
+            (v) => !!v || 'Confirm password is required',
+            (v) => v === this.password || 'Passwords must match',
+        ],
+    }),
     methods: {
-        register() {
-            if (this.$refs.registerForm.validate()) {
-                if (this.password !== this.confirmPassword) {
-                    this.$refs.registerForm.errors.push("As senhas não coincidem.")
-                    return
-                }
-                const data = {
-                    username_field: this.username,
-                    email_field: this.email,
-                    password_field: this.password,
-                }
-                axios.post('/api/register/', data)
-                    .then(response => {
-                        this.dialog = false
-                        this.$refs.registerForm.reset()
-                        this.$emit('registered', response.data)
-                    })
-                    .catch(error => {
-                        console.error(error)
-                        this.$refs.registerForm.errors.push("Ocorreu um erro ao registrar o usuário. Por favor, tente novamente mais tarde.")
-                    })
-            }
+        close() {
+            this.dialog = false
         },
-    },
+        register() {
+            axios.post('/api/register', {
+                name: this.name,
+                email: this.email,
+                password: this.password,
+            })
+                .then((response) => {
+                    console.log(response.data)
+                    this.dialog = false
+                })
+                .catch((error) => {
+                    console.log(error.response.data);
+                    this.error = error.response.data.message;
+                });
+        }
+    }
 }
-</script>
-  

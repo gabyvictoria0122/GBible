@@ -26,6 +26,7 @@
 <script>
 import loginDialog from '~/components/login-dialog.vue'
 import registerDialog from '~/components/register-dialog.vue'
+import axios from 'axios'
 
 export default {
   layout: 'default',
@@ -54,7 +55,7 @@ export default {
     register() {
       if (this.$refs.register_form.validate()) {
         const data = {
-          username_field: this.username,
+          name_field: this.name,
           email_field: this.email,
           password_field: this.password,
         };
@@ -77,8 +78,6 @@ export default {
     },
 
   },
-
-
 }
 </script>
 
