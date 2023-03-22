@@ -6,7 +6,7 @@
             </v-card-title>
             <v-card-text>
                 <v-form ref="registerForm" v-model="valid">
-                    <v-text-field v-model="name" label="Nome de usuário" required :rules="nameRules"></v-text-field>
+                    <v-text-field v-model="username" label="Nome de usuário" required :rules="nameRules"></v-text-field>
                     <v-text-field v-model="email" label="Email" required :rules="emailRules"></v-text-field>
                     <v-text-field v-model="password" label="Senha" type="password" required
                         :rules="passwordRules"></v-text-field>
@@ -28,7 +28,7 @@ export default {
     name: 'RegisterDialog',
     data: () => ({
         dialog: false,
-        name: '',
+        username: '',
         email: '',
         password: '',
         valid: false,
@@ -52,7 +52,7 @@ export default {
         register() {
             // debugger
             axios.post('/api/register', {
-                name: this.name,
+                username: this.username,
                 email: this.email,
                 password: this.password,
             })
