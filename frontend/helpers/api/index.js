@@ -57,11 +57,11 @@ export default {
     const data = await fetch(url)
     return data.json()
   },
-  register: (username, email, password) => {
+  register: (name, email, password) => {
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
     return axios
       .post("/api/register", {
-        username: username,
+        name: name,
         email: email,
         password: password,
       },

@@ -55,11 +55,11 @@ export default {
     register() {
       if (this.$refs.register_form.validate()) {
         const data = {
-          name_field: this.name,
-          email_field: this.email,
-          password_field: this.password,
+          name: this.name,
+          email: this.email,
+          password: this.password,
         };
-        axios.post('/api/register/', JSON.stringify(data))
+        axios.post('/api/register/', data)
           .then(response => {
             if (response.data.success) {
               this.$refs.registerDialog.close();
@@ -76,7 +76,10 @@ export default {
           });
       }
     },
-
+    handleRegistration(user) {
+      this.$store.commit('auth/setCurrentUser', user);
+      this.$router.push({ name: 'start' });
+    }
   },
 }
 </script>

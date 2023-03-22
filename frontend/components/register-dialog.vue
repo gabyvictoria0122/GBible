@@ -10,8 +10,6 @@
                     <v-text-field v-model="email" label="Email" required :rules="emailRules"></v-text-field>
                     <v-text-field v-model="password" label="Senha" type="password" required
                         :rules="passwordRules"></v-text-field>
-                    <v-text-field v-model="confirmPassword" label="Confirme a senha" type="password" required
-                        :rules="confirmPasswordRules"></v-text-field>
                 </v-form>
             </v-card-text>
             <v-card-actions>
@@ -33,7 +31,6 @@ export default {
         name: '',
         email: '',
         password: '',
-        confirmPassword: '',
         valid: false,
         nameRules: [
             (v) => !!v || 'Name is required',
@@ -45,11 +42,7 @@ export default {
         ],
         passwordRules: [
             (v) => !!v || 'Password is required',
-            (v) => (v && v.length >= 8) || 'Password must be at least 8 characters',
-        ],
-        confirmPasswordRules: [
-            (v) => !!v || 'Confirm password is required',
-            (v) => v === this.password || 'Passwords must match',
+            (v) => (v && v.length >= 4) || 'Password must be at least 8 characters',
         ],
     }),
     methods: {
@@ -57,6 +50,7 @@ export default {
             this.dialog = false
         },
         register() {
+            // debugger
             axios.post('/api/register', {
                 name: this.name,
                 email: this.email,
@@ -68,8 +62,10 @@ export default {
                 })
                 .catch((error) => {
                     console.log(error.response.data);
-                    this.error = error.response.data.message;
+                    this.error = error.response.data.message; // Armazena o erro em this.error
                 });
+
         }
     }
 }
+</script>

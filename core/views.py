@@ -16,14 +16,15 @@ def dapau(request):
 
 @csrf_exempt
 def register(request):
+    breakpoint()
     if request.method == 'POST':
         user_input = json.loads(request.body)
-        username = user_input.get("username_field")
+        name = user_input.get("name_field")
         email = user_input.get("email_field")
         password = user_input.get("password_field")
-
+        # breakpoint()
         # Validação
-        if not username or not email or not password:
+        if not name or not email or not password:
             return JsonResponse({'error': 'Todos os dados são obrigatórios.'})
 
         # Validação
@@ -31,7 +32,7 @@ def register(request):
             return JsonResponse({'error': 'Email já está sendo usado.'})
 
         user = User.objects.create_user(
-            username=username,
+            name=name,
             email=email,
             password=password,
         )
