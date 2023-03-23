@@ -1,15 +1,46 @@
 # coding: utf-8
 import json
+from http import HTTPStatus
 from django.http.response import HttpResponse, JsonResponse
 from django.contrib import auth
 from commons.django_model_utils import get_or_none
 from commons.django_views_utils import ajax_login_required
 from core.service import log_svc, todo_svc, globalsettings_svc
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User
+from core.models import Profile
+from .models import Note
 
 
 def dapau(request):
     raise Exception('break on purpose')
+
+
+@csrf_exempt
+def register(request):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Metodo não suportado.'}, status=HTTPStatus.METHOD_NOT_ALLOWED.value)
+
+    user_input = json.loads(request.body)
+    username = user_input.get("username")
+    email = user_input.get("email")
+    password = user_input.get("password")
+    # Validação
+    if not username or not email or not password:
+        return JsonResponse({'error': 'Todos os dados são obrigatórios.'})
+
+    # Validação
+    if User.objects.filter(email=email).exists():
+        return JsonResponse({'error': 'Email já está sendo usado.'})
+
+    user = User.objects.create_user(
+        username=username,
+        email=email,
+        password=password
+    )
+    profile = Profile(user=user)
+    profile.save()
+    return JsonResponse({'success': 'Usuario criado com sucesso.'})
 
 
 @csrf_exempt
@@ -57,6 +88,34 @@ def add_todo(request):
 def list_todos(request):
     todos = todo_svc.list_todos()
     return JsonResponse({'todos': todos})
+
+@csrf_exempt
+def save_note(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode())
+        user = User.objects.filter(id=data["user_id"])
+        text= data['text']
+        time = data['time']
+        note = Note.objects.create(user=user[0], text=text, time=time)
+        note.save()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success':False})
+
+
+def get_notes(request):
+    notes = Note.objects.filter(user=request.user)
+    nota = {}
+    for note in notes:
+        nota = {
+            "text": note.text,
+            "time": note.time
+        }
+    return JsonResponse(nota)
+
+
+def mostra_note(request):
+    notes = todo_svc.list_notes(request)
+    return JsonResponse({"notes":notes})
 
 
 def _user2dict(user):
