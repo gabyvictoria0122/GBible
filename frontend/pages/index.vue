@@ -5,10 +5,10 @@
     <div>
       <v-row cols="12" sm="12">
         <v-col class="d-flex flex-column">
-          <v-btn x-large rounded class=" my-4" @click="$refs.registerDialog.dialog = true"> Inscrever - se </v-btn>
+          <v-btn x-large rounded class=" my-4" @click="open_register_dialog()"> Inscrever - se </v-btn>
           <v-btn x-large class=" my-4" @click="open_login_dialog($event)" rounded>Entrar</v-btn>
           <login-dialog ref="login_dialog" />
-          <register-dialog ref="registerDialog" @registered="handleRegistration" />
+          <register-dialog :register-visible="registerVisible" ref="registerDialog" />
         </v-col>
       </v-row>
     </div>
@@ -40,6 +40,11 @@ export default {
       return this.$store.state.auth.currentUser
     }
   },
+  data() {
+    return {
+      registerVisible: false
+    }
+  },
   methods: {
     open_login_dialog(evt) {
       this.$refs.login_dialog.open()
@@ -48,38 +53,10 @@ export default {
       }
       evt.stopPropagation()
     },
-    open_register_dialog(evt) {
-      this.$refs.registerDialog.open()
-      evt.stopPropagation()
+    open_register_dialog() {
+      // this.$refs.registerDialog.open()
+      this.registerVisible = !this.registerVisible
     },
-    register() {
-      if (this.$refs.register_form.validate()) {
-        const data = {
-          name: this.name,
-          email: this.email,
-          password: this.password,
-        };
-        axios.post('/api/register/', data)
-          .then(response => {
-            if (response.data.success) {
-              this.$refs.registerDialog.close();
-              this.$refs.login_dialog.open();
-              this.$store.commit('auth/setCurrentUser', response.data.user);
-              this.$router.push({ name: 'start' });
-            } else {
-              this.$refs.register_form.errors = response.data.errors;
-            }
-          })
-          .catch(error => {
-            console.error(error);
-            this.$refs.register_form.errors = ['Ocorreu um erro ao registrar o usuário. Por favor, tente novamente mais tarde.'];
-          });
-      }
-    },
-    handleRegistration(user) {
-      this.$store.commit('auth/setCurrentUser', user);
-      this.$router.push({ name: 'start' });
-    }
   },
 }
 </script>

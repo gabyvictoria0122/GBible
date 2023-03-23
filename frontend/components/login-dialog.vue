@@ -23,7 +23,7 @@
 import api from '~api'
 
 export default {
-  data () {
+  data() {
     return {
       visible: false,
       loading: false,
@@ -33,13 +33,13 @@ export default {
     }
   },
   methods: {
-    open () {
+    open() {
       this.visible = true
     },
-    close () {
+    close() {
       this.visible = false
     },
-    async login () {
+    async login() {
       this.loading = true
       this.error = false
       const user = await api.login(this.username, this.password)
