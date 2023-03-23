@@ -1,5 +1,6 @@
 # coding: utf-8
 import json
+from http import HTTPStatus
 from django.http.response import HttpResponse, JsonResponse
 from django.contrib import auth
 from commons.django_model_utils import get_or_none
@@ -17,29 +18,29 @@ def dapau(request):
 
 @csrf_exempt
 def register(request):
-    if request.method == 'POST':
-        user_input = json.loads(request.body)
-        username = user_input.get("username")
-        email = user_input.get("email")
-        password = user_input.get("password")
-        # Validação
-        if not username or not email or not password:
-            return JsonResponse({'error': 'Todos os dados são obrigatórios.'})
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Metodo não suportado.'}, status=HTTPStatus.METHOD_NOT_ALLOWED.value)
 
-        # Validação
-        if User.objects.filter(email=email).exists():
-            return JsonResponse({'error': 'Email já está sendo usado.'})
+    user_input = json.loads(request.body)
+    username = user_input.get("username")
+    email = user_input.get("email")
+    password = user_input.get("password")
+    # Validação
+    if not username or not email or not password:
+        return JsonResponse({'error': 'Todos os dados são obrigatórios.'})
 
-        user = User.objects.create_user(
-            username=username,
-            email=email,
-            password=password
-        )
-        profile = Profile(user=user)
-        profile.save()
-        return JsonResponse({'success': 'Usuario criado com sucesso.'})
-    else:
-        return JsonResponse({'error': 'Metodo não suportado.'})
+    # Validação
+    if User.objects.filter(email=email).exists():
+        return JsonResponse({'error': 'Email já está sendo usado.'})
+
+    user = User.objects.create_user(
+        username=username,
+        email=email,
+        password=password
+    )
+    profile = Profile(user=user)
+    profile.save()
+    return JsonResponse({'success': 'Usuario criado com sucesso.'})
 
 
 @csrf_exempt
