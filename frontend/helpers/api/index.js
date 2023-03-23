@@ -42,6 +42,29 @@ export default {
   add_todo(newtask) {
     return post('/api/add_todo', { new_task: newtask })
   },
+  saveNota(note) {
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+    axios.interceptors.request.use(
+      config => {
+        config.headers['X-CSRFToken'] = csrftoken
+        return config
+      },
+      error => Promise.reject(error)
+    )
+    return post('/api/save-note', { note: note })
+  },
+  getNotes: () => {
+    return new promise((resolve, reject) => {
+      api
+        .get('/api/get-note')
+        .then((response) => {
+          return resolve(response.data)
+        })
+        .catch((error) => {
+          return reject(error)
+        })
+    })
+  },
   // async list_books () {
   //   const url = 'https://www.abibliadigital.com.br/api/books'
   //   const data = await fetch_all_pages(url)
@@ -57,6 +80,8 @@ export default {
     const data = await fetch(url)
     return data.json()
   },
+
+
   register: (username, email, password) => {
     console.log(username, email, password)
     const csrftoken = document.querySelector('[username=csrfmiddlewaretoken]').value
