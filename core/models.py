@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractBaseUser
 
 
 class ActivityLog(models.Model):
@@ -30,3 +30,16 @@ class Todo(models.Model):
             'description': self.description,
             'done': self.done,
         }
+
+
+class Profile(models.Model):
+    user= models.OneToOneField(User, on_delete=models.CASCADE)
+    
+
+    def __str__(self):
+       return self.user.username
+
+    def create_user(self, username, email=None, password=None, **extra_fields):
+        extra_fields.setdefault("is_staff", False)
+        extra_fields.setdefault("is_superuser", False)
+        return self._create_user(username, email, password, **extra_fields)

@@ -1,4 +1,4 @@
-#!/home/gabrielanascimento/workspace/2023/busertech/gbible/.venv/bin/python
+#!/home/danielmatos/workSpace/projetosPessoais/diario/gbible/GBible/.venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

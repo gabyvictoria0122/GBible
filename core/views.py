@@ -6,10 +6,39 @@ from commons.django_model_utils import get_or_none
 from commons.django_views_utils import ajax_login_required
 from core.service import log_svc, todo_svc, globalsettings_svc
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User
+from core.models import Profile
 
 
 def dapau(request):
     raise Exception('break on purpose')
+
+
+@csrf_exempt
+def register(request):
+    if request.method == 'POST':
+        user_input = json.loads(request.body)
+        username = user_input.get("username")
+        email = user_input.get("email")
+        password = user_input.get("password")
+        # Validação
+        if not username or not email or not password:
+            return JsonResponse({'error': 'Todos os dados são obrigatórios.'})
+
+        # Validação
+        if User.objects.filter(email=email).exists():
+            return JsonResponse({'error': 'Email já está sendo usado.'})
+
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
+        profile = Profile(user=user)
+        profile.save()
+        return JsonResponse({'success': 'Usuario criado com sucesso.'})
+    else:
+        return JsonResponse({'error': 'Metodo não suportado.'})
 
 
 @csrf_exempt
