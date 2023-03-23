@@ -8,6 +8,7 @@ from core.service import log_svc, todo_svc, globalsettings_svc
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from core.models import Profile
+from .models import Note
 
 
 def dapau(request):
@@ -86,6 +87,34 @@ def add_todo(request):
 def list_todos(request):
     todos = todo_svc.list_todos()
     return JsonResponse({'todos': todos})
+
+@csrf_exempt
+def save_note(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode())
+        user = User.objects.filter(id=data["user_id"])
+        text= data['text']
+        time = data['time']
+        note = Note.objects.create(user=user[0], text=text, time=time)
+        note.save()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success':False})
+
+
+def get_notes(request):
+    notes = Note.objects.filter(user=request.user)
+    nota = {}
+    for note in notes:
+        nota = {
+            "text": note.text,
+            "time": note.time
+        }
+    return JsonResponse(nota)
+
+
+def mostra_note(request):
+    notes = todo_svc.list_notes(request)
+    return JsonResponse({"notes":notes})
 
 
 def _user2dict(user):

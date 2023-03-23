@@ -17,7 +17,7 @@
       </v-timeline-item>
 
       <v-slide-x-transition group>
-        <v-timeline-item v-for="event in timeline" :key="event.id" class="mb-4" color="pink" small>
+        <v-timeline-item v-for="event in events" :key="event.time" class="mb-4" color="pink" small>
           <v-row justify="space-between">
             <v-col cols="7" v-text="event.text" />
             <v-col class="text-right" cols="5" v-text="event.time" />
@@ -111,45 +111,67 @@ export default {
     input: null,
     nonce: 0,
     loading: false,
+    notes: [],
+    user_id: null
   }),
-  mounted() {
+  created() {
+    this.getUser()
     this.getNote()
   },
+  // mounted() {
+  // this.getNote()
+  // },
   computed: {
     timeline() {
       return this.events.slice().reverse()
     }
   },
-
   methods: {
     async comment() {
       const time = (new Date()).toTimeString()
       const note = {
         id: this.nonce++,
         text: this.input,
-        user_id: 35,
+        user_id: this.user_id,
         time: time.replace(/:\d{2}\sGMT-\d{4}\s\((.*)\)/, (match, contents, offset) => {
           return ` ${contents.split(' ').map(v => v.charAt(0)).join('')}`
         })
       }
       await axios.post('/api/save-note', note)
-
-      this.events.push(note)
+      this.events = []
+      this.getNote()
       this.input = null
     },
     async getNote() {
-      return new Promise((resolve, reject) => {
-        axios.get('/api/get-note', 35)
-          .then((response) => {
-            console.log(response.data)
-            return resolve(response.data)
-          }).catch((error) => {
-            return reject(error)
-          })
-      })
+      let response = await axios.get('/api/get-note', this.user_id)
+      this.events.push(response.data)
+      console.log('aqui ta indo')
+      console.log(this.events)
+
     },
+    async getUser() {
+      let response = await axios.get('/api/whoami')
+      this.user_id = response.data.user.id
+      console.log(this.user_id)
+    }
+
+
+    // async getNote() {
+    //   try {
+    //     const response = await axios.get('/api/get-note')
+    //     const notes = response.data
+    //     notes.forEach(note => {
+    //       this.notes.push({
+    //         id: note.id,
+    //         text: note.text,
+    //         user_id: note.user_id,
+    //         time: note.time
+    //       })
+    //     })
+    //   } catch (error) {
+    //     console.error(error)
+    //   }
+    // }
   }
 }
 </script>
-
-<style></style>

@@ -10,4 +10,6 @@ urlpatterns = [
     path('api/settings', views.settings),
     path('api/add_todo', views.add_todo),
     path('api/list_todos', views.list_todos),
+    path('api/save-note', views.save_note),
+    path('api/get-note', views.get_notes),
 ]

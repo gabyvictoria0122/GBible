@@ -32,6 +32,12 @@ class Todo(models.Model):
         }
 
 
+class Note(models.Model):
+    user = models.ForeignKey(User,null=True ,on_delete=models.CASCADE)
+    text = models.CharField(max_length=255)
+    time = models.DateTimeField(auto_now_add=True)
+
+
 class Profile(models.Model):
     user= models.OneToOneField(User, on_delete=models.CASCADE)
     
